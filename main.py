@@ -347,18 +347,15 @@ def draw():
    
                 if doublePlayed == True:
                     if domino1 == double or domino2 == double:
-                        print("played on double")
                         play(userInput)
                         break
                 elif spotsPlayable[domino1] > 0 or spotsPlayable[domino2] > 0:
-                        print("played")
                         play(userInput)
                         break
                 if turn == 0:
                     player1[domino1][domino2] = 1
                     player1HandSize = player1HandSize + 1
                     turn = 1
-                    print("player drew")
                 elif numPlayers > 1 and turn == 1:
                     player2[domino1][domino2] = 1
                     player2HandSize = player2HandSize + 1
@@ -387,7 +384,6 @@ def draw():
                     ai[domino1][domino2] = 1
                     aiHandSize = aiHandSize + 1
                     turn = 0
-                    print("ai drew")
 
 round = 9 # what double to start round with, starting with 9
 player1Score = 0
