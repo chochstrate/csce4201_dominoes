@@ -1,7 +1,43 @@
 #from func import *
 from array import *
 import random
+import math
 import re
+
+# Below minimax code from https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-4-alpha-beta-pruning/?ref=rp
+
+# Initial values of Alpha and Beta 
+MAX, MIN = 1000, -1000 
+  
+# Returns optimal value for current player 
+#(Initially called for root and maximizer) 
+def minimax(depth, nodeIndex, maximizingPlayer, values, alpha, beta): 
+    # Terminating condition. i.e leaf node is reached 
+    if depth == 3: 
+        return values[nodeIndex] 
+    if maximizingPlayer: 
+        best = MIN 
+        # Recur for left and right children 
+        for i in range(0, 2): 
+            val = minimax(depth + 1, nodeIndex * 2 + i, False, values, alpha, beta) 
+            best = max(best, val) 
+            alpha = max(alpha, best) 
+            # Alpha Beta Pruning 
+            if beta <= alpha: 
+                break 
+        return best 
+    else:
+        best = MAX 
+        # Recur for left and 
+        # right children 
+        for i in range(0, 2): 
+            val = minimax(depth + 1, nodeIndex * 2 + i, True, values, alpha, beta) 
+            best = min(best, val) 
+            beta = min(beta, best) 
+            # Alpha Beta Pruning 
+            if beta <= alpha: 
+                break 
+        return best
 
 def play(userInput):
     global doublePlayed
@@ -385,6 +421,11 @@ def draw():
                     aiHandSize = aiHandSize + 1
                     turn = 0
 
+#example output for minimax from geeksforgeeks (returns 5)
+#values = [3, 5, 6, 9, 1, 2, 0, -1]
+#print("The optimal value is :", minimax(0, 0, True, values, MIN, MAX))
+
+aiTest = 0 #used to see if AI is playing against itself or not
 round = 9 # what double to start round with, starting with 9
 player1Score = 0
 player2Score = 0
@@ -406,25 +447,29 @@ p7Name = "Player 7"
 numPlayers = 0
 while numPlayers < 1:
     numPlayers = input("How many human players (1-7): ")
+    if numPlayers == "aiTest":
+        aiTest = 1
+        numPlayers = 0
     numPlayers = int(numPlayers)
-    if numPlayers < 0 or numPlayers > 7:
+    if numPlayers < 0 or numPlayers > 7: #error checking
         numPlayers = 0
 
-names = input("Would you like to enter a name/names for the human player(s)? (yes/no): ")
-if names == "yes":
-    p1Name = input("Enter Player 1's name: ")
-    if numPlayers > 1:
-        p2Name = input("Enter Player 2's name: ")
-    if numPlayers > 2:
-        p3Name = input("Enter Player 3's name: ")
-    if numPlayers > 3:
-        p4Name = input("Enter Player 4's name: ")
-    if numPlayers > 4:
-        p5Name = input("Enter Player 5's name: ")
-    if numPlayers > 5:
-        p6Name = input("Enter Player 6's name: ")
-    if numPlayers > 6:
-        p7Name = input("Enter Player 7's name: ")
+if aiTest == 0:
+    names = input("Would you like to enter a name/names for the human player(s)? (yes/no): ")
+    if names == "yes":
+        p1Name = input("Enter Player 1's name: ")
+        if numPlayers > 1:
+            p2Name = input("Enter Player 2's name: ")
+        if numPlayers > 2:
+            p3Name = input("Enter Player 3's name: ")
+        if numPlayers > 3:
+            p4Name = input("Enter Player 4's name: ")
+        if numPlayers > 4:
+            p5Name = input("Enter Player 5's name: ")
+        if numPlayers > 5:
+            p6Name = input("Enter Player 6's name: ")
+        if numPlayers > 6:
+            p7Name = input("Enter Player 7's name: ")
 
 while round >= 0:
     dealt = 0
@@ -552,15 +597,16 @@ while round >= 0:
                 aiHandSize = aiHandSize - 1
                 print("AI had double", double)
 
-    if round == 9:
-        print("Type 'help' to list commands")
-        print("Type 'play # #', where the #s are replaced by the domino you wish to play")
-        print("Type 'doubles' to list the doubles that have been played so far")
-        print("Type 'dominos' or 'dominoes' to list the number of each type of domino that has been played so far & how many dominoes remain in the chicken yard")
-        print("Type 'draw' to draw a domino from the chicken yard")
-        print("Type 'places' to list available places to play")
-        print("Type 'score' to list the scores of the players")
-        print("Type 'quit' to quit the game")
+    if aiTest == 0:
+        if round == 9:
+            print("Type 'help' to list commands")
+            print("Type 'play # #', where the #s are replaced by the domino you wish to play")
+            print("Type 'doubles' to list the doubles that have been played so far")
+            print("Type 'dominos' or 'dominoes' to list the number of each type of domino that has been played so far & how many dominoes remain in the chicken yard")
+            print("Type 'draw' to draw a domino from the chicken yard")
+            print("Type 'places' to list available places to play")
+            print("Type 'score' to list the scores of the players")
+            print("Type 'quit' to quit the game")
 
     # game starting
     while player1HandSize > 0 and player2HandSize > 0 and player3HandSize > 0 and player4HandSize > 0 and player5HandSize > 0 and player6HandSize > 0 and player7HandSize > 0 and aiHandSize > 0:
@@ -628,7 +674,8 @@ while round >= 0:
             else:
                 print(available, "are available to play on")
                 print(numAvailable, "is how many of each are available")
-        userInput = input("Enter move: ") #make player only after implementing ai
+        #if(turn < numPlayers): #make player only after implementing ai
+        userInput = input("Enter move: ")
         if userInput == "help":
             print("Type 'help' to list commands")
             print("Type 'play # #', where the #s are replaced by the domino you wish to play")
