@@ -2,6 +2,7 @@
 from array import *
 import random
 import math
+import sys
 import re
 
 # Below minimax code from https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-4-alpha-beta-pruning/?ref=rp
@@ -13,7 +14,7 @@ MAX, MIN = 1000, -1000
 #(Initially called for root and maximizer) 
 def minimax(depth, nodeIndex, maximizingPlayer, values, alpha, beta): 
     # Terminating condition. i.e leaf node is reached 
-    if depth == 3: 
+    if depth == int(math.log(len(values),2)): 
         return values[nodeIndex] 
     if maximizingPlayer: 
         best = MIN 
@@ -38,6 +39,59 @@ def minimax(depth, nodeIndex, maximizingPlayer, values, alpha, beta):
             if beta <= alpha: 
                 break 
         return best
+
+def ai_turn():
+    if turn == numPlayers:
+        return True
+    return False
+
+
+def is_valid_move(userInput):
+    global doublePlayed
+    global double
+    global doubleSpots
+    global turn
+    global aiHandSize
+    global player1HandSize
+    global player2HandSize
+    global player3HandSize
+    global player4HandSize
+    global player5HandSize
+    global player6HandSize
+    global player7HandSize
+    global chickenYardAmount
+
+    playedDomino = userInput
+    if playedDomino[0] > playedDomino[1]:
+        playedTemp = playedDomino[0]
+        playedDomino[0] = playedDomino[1]
+        playedDomino[1] = playedTemp
+
+    if doublePlayed == True:
+        if totalPlayed[double] > 10 and doubleSpots == 3:
+            return True
+        elif int(playedDomino[0]) == double:
+            return True
+        elif int(playedDomino[1]) == double:
+            return True
+        else:
+            return False
+        if doubleSpots == 0:
+            doublePlayed = False
+    elif playedDomino[0] == playedDomino[1]:
+        if spotsPlayable[int(playedDomino[0])] > 0:
+            return True
+        else:
+            return False
+    else:
+        if spotsPlayable[int(playedDomino[0])] > 0 and spotsPlayable[int(playedDomino[1])] == 0:
+                return True
+        elif spotsPlayable[int(playedDomino[1])] > 0 and spotsPlayable[int(playedDomino[0])] == 0:
+                return True
+        elif spotsPlayable[int(playedDomino[0])] > 0 and spotsPlayable[int(playedDomino[1])] > 0:
+                return True
+        else:
+            return False
 
 def play(userInput):
     global doublePlayed
@@ -675,7 +729,25 @@ while round >= 0:
                 print(available, "are available to play on")
                 print(numAvailable, "is how many of each are available")
         #if(turn < numPlayers): #make player only after implementing ai
-        userInput = input("Enter move: ")
+        
+        if ai_turn():
+            # get valid dominoes
+            valid_dominoes = []
+            for i in range(10):
+                for j in range(10):
+                    if ai[i][j] == 1 and is_valid_move([i, j]):
+                        valid_dominoes.append((i*10)+j)
+            
+            # TODO remove this, used for debugging
+            # print("playable dominoes ", valid_dominoes)
+            
+            userInput = minimax(0, 0, True, valid_dominoes, MIN, MAX)
+            userInput = str(userInput/10).split(".")
+            userInput = f"play {userInput[0]} {userInput[1]}"
+            print(userInput)
+        else:
+            userInput = input("Enter move: ")
+        
         if userInput == "help":
             print("Type 'help' to list commands")
             print("Type 'play # #', where the #s are replaced by the domino you wish to play")
