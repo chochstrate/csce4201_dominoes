@@ -331,44 +331,59 @@ def play(userInput):
             totalPlayed[int(playedDomino[1])] = totalPlayed[int(playedDomino[1])] + 1
             totalPlayed[int(playedDomino[2])] = totalPlayed[int(playedDomino[2])] + 1
             blockCheck = 0
-            #if turn < numPlayers: #uncomment when ai is implemented
-            print("Would you like to play it on a", playedDomino[1], "or a", playedDomino[2])
-            userInput = input()
-            if userInput == playedDomino[1]:
-                spotsPlayable[int(playedDomino[1])] = spotsPlayable[int(playedDomino[1])] - 1
-                spotsPlayable[int(playedDomino[2])] = spotsPlayable[int(playedDomino[2])] + 1
-            else:
-                spotsPlayable[int(playedDomino[2])] = spotsPlayable[int(playedDomino[2])] - 1
-                spotsPlayable[int(playedDomino[1])] = spotsPlayable[int(playedDomino[1])] + 1
-            if turn == 0:
-                player1[int(playedDomino[1])][int(playedDomino[2])] = 0
-                player1HandSize = player1HandSize - 1
-                turn = 1
-            elif numPlayers > 1 and turn == 1:
-                player2[int(playedDomino[1])][int(playedDomino[2])] = 0
-                player2HandSize = player2HandSize - 1
-                turn = 2
-            elif numPlayers > 2 and turn == 2:
-                player3[int(playedDomino[1])][int(playedDomino[2])] = 0
-                player3HandSize = player3HandSize - 1
-                turn = 3
-            elif numPlayers > 3 and turn == 3:
-                player4[int(playedDomino[1])][int(playedDomino[2])] = 0
-                player4HandSize = player4HandSize - 1
-                turn = 4
-            elif numPlayers > 4 and turn == 4:
-                player5[int(playedDomino[1])][int(playedDomino[2])] = 0
-                player5HandSize = player5HandSize - 1
-                turn = 5
-            elif numPlayers > 5 and turn == 5:
-                player6[int(playedDomino[1])][int(playedDomino[2])] = 0
-                player6HandSize = player6HandSize - 1
-                turn = 6
-            elif numPlayers > 6 and turn == 6:
-                player7[int(playedDomino[1])][int(playedDomino[2])] = 0
-                player7HandSize = player7HandSize - 1
-                turn = 7
-            elif turn == numPlayers: #make automated with actual AI
+            if turn < numPlayers:
+                print("Would you like to play it on a", playedDomino[1], "or a", playedDomino[2])
+                userInput = input()
+                if userInput == playedDomino[1]:
+                    spotsPlayable[int(playedDomino[1])] = spotsPlayable[int(playedDomino[1])] - 1
+                    spotsPlayable[int(playedDomino[2])] = spotsPlayable[int(playedDomino[2])] + 1
+                else:
+                    spotsPlayable[int(playedDomino[2])] = spotsPlayable[int(playedDomino[2])] - 1
+                    spotsPlayable[int(playedDomino[1])] = spotsPlayable[int(playedDomino[1])] + 1
+                if turn == 0:
+                    player1[int(playedDomino[1])][int(playedDomino[2])] = 0
+                    player1HandSize = player1HandSize - 1
+                    turn = 1
+                elif numPlayers > 1 and turn == 1:
+                    player2[int(playedDomino[1])][int(playedDomino[2])] = 0
+                    player2HandSize = player2HandSize - 1
+                    turn = 2
+                elif numPlayers > 2 and turn == 2:
+                    player3[int(playedDomino[1])][int(playedDomino[2])] = 0
+                    player3HandSize = player3HandSize - 1
+                    turn = 3
+                elif numPlayers > 3 and turn == 3:
+                    player4[int(playedDomino[1])][int(playedDomino[2])] = 0
+                    player4HandSize = player4HandSize - 1
+                    turn = 4
+                elif numPlayers > 4 and turn == 4:
+                    player5[int(playedDomino[1])][int(playedDomino[2])] = 0
+                    player5HandSize = player5HandSize - 1
+                    turn = 5
+                elif numPlayers > 5 and turn == 5:
+                    player6[int(playedDomino[1])][int(playedDomino[2])] = 0
+                    player6HandSize = player6HandSize - 1
+                    turn = 6
+                elif numPlayers > 6 and turn == 6:
+                    player7[int(playedDomino[1])][int(playedDomino[2])] = 0
+                    player7HandSize = player7HandSize - 1
+                    turn = 7
+            elif turn == numPlayers:
+                if spotsPlayable[int(playedDomino[1])] > spotsPlayable[int(playedDomino[2])]:
+                    spotsPlayable[int(playedDomino[2])] = spotsPlayable[int(playedDomino[2])] - 1
+                    spotsPlayable[int(playedDomino[1])] = spotsPlayable[int(playedDomino[1])] + 1
+                elif spotsPlayable[int(playedDomino[1])] < spotsPlayable[int(playedDomino[2])]:
+                    spotsPlayable[int(playedDomino[1])] = spotsPlayable[int(playedDomino[1])] - 1
+                    spotsPlayable[int(playedDomino[2])] = spotsPlayable[int(playedDomino[2])] + 1
+                elif spotsPlayable[int(playedDomino[1])] == spotsPlayable[int(playedDomino[2])]:
+                    rand = random.randint(0,1)
+                    if rand == 0:
+                        spotsPlayable[int(playedDomino[1])] = spotsPlayable[int(playedDomino[1])] - 1
+                        spotsPlayable[int(playedDomino[2])] = spotsPlayable[int(playedDomino[2])] + 1
+                    elif rand == 1:
+                        spotsPlayable[int(playedDomino[2])] = spotsPlayable[int(playedDomino[2])] - 1
+                        spotsPlayable[int(playedDomino[1])] = spotsPlayable[int(playedDomino[1])] + 1
+
                 ai[int(playedDomino[1])][int(playedDomino[2])] = 0
                 aiHandSize = aiHandSize - 1
                 turn = 0
@@ -396,28 +411,28 @@ def draw():
     if chickenYardAmount == 0:
         if turn == 0:
             turn = 1
-            blockCheck = blockCheck + 1
+    #        blockCheck = blockCheck + 1
         elif numPlayers > 1 and turn == 1:
             turn = 2
-            blockCheck = blockCheck + 1
+    #        blockCheck = blockCheck + 1
         elif numPlayers > 2 and turn == 2:
             turn = 3
-            blockCheck = blockCheck + 1
+    #        blockCheck = blockCheck + 1
         elif numPlayers > 3 and turn == 3:
             turn = 4
-            blockCheck = blockCheck + 1
+    #        blockCheck = blockCheck + 1
         elif numPlayers > 4 and turn == 4:
             turn = 5
-            blockCheck = blockCheck + 1
+    #        blockCheck = blockCheck + 1
         elif numPlayers > 5 and turn == 5:
             turn = 6
-            blockCheck = blockCheck + 1
+    #        blockCheck = blockCheck + 1
         elif numPlayers > 6 and turn == 6:
             turn = 7
-            blockCheck = blockCheck + 1
+    #        blockCheck = blockCheck + 1
         elif turn == numPlayers:
             turn = 0
-            blockCheck = blockCheck + 1
+    #        blockCheck = blockCheck + 1
 
     elif chickenYardAmount > 0:
         while drawn == False:
@@ -475,10 +490,6 @@ def draw():
                     aiHandSize = aiHandSize + 1
                     turn = 0
 
-#example output for minimax from geeksforgeeks (returns 5)
-#values = [3, 5, 6, 9, 1, 2, 0, -1]
-#print("The optimal value is :", minimax(0, 0, True, values, MIN, MAX))
-
 aiTest = 0 #used to see if AI is playing against itself or not
 round = 9 # what double to start round with, starting with 9
 player1Score = 0
@@ -500,13 +511,14 @@ p7Name = "Player 7"
 
 numPlayers = 0
 while numPlayers < 1:
-    numPlayers = input("How many human players (1-7): ")
-    if numPlayers == "aiTest":
-        aiTest = 1
-        numPlayers = 0
-    numPlayers = int(numPlayers)
-    if numPlayers < 0 or numPlayers > 7: #error checking
-        numPlayers = 0
+    #numPlayers = input("How many human players (1-7): ")
+    #if numPlayers == "aiTest":
+    #    aiTest = 1
+    #    numPlayers = 0
+    #numPlayers = int(numPlayers)
+    #if numPlayers < 0 or numPlayers > 7: #error checking
+    #    numPlayers = 0
+    numPlayers = 1
 
 if aiTest == 0:
     names = input("Would you like to enter a name/names for the human player(s)? (yes/no): ")
@@ -706,29 +718,35 @@ while round >= 0:
                 for j in range(10):
                     if player7[i][j] == 1:
                         print("[",i,"|",j,"]", sep='', end='')
-        elif turn == numPlayers:
-            print("AI's Turn") # for testing
-            for i in range(10): # print hand to player ai for testing
+        #elif turn == numPlayers:
+            #print("AI's Turn") # for testing
+            #for i in range(10): # print hand to player ai for testing
+                #for j in range(10):
+                    #if ai[i][j] == 1:
+                        #print("[",i,"|",j,"]", sep='', end='')
+        if turn < numPlayers:
+            print()
+            domAI = 0
+            for i in range(10):
                 for j in range(10):
                     if ai[i][j] == 1:
-                        print("[",i,"|",j,"]", sep='', end='')
-        print()
-        if doublePlayed == True:
-            print("Double", double, "in play,", doubleSpots, "spots remaining on it")
-        else:
-            available = []
-            numAvailable = []
-            for i in range (10):
-                if spotsPlayable[i] > 0:
-                    available.append(i)
-                    numAvailable.append(spotsPlayable[i])
-            if len(available) == 1:
-                print(available, "is available to play on")
-                print(numAvailable, "is how many of it is available")
+                        domAI = domAI + 1
+            print("AI has", domAI, "dominoes left.")
+            if doublePlayed == True:
+                print("Double", double, "in play,", doubleSpots, "spots remaining on it")
             else:
-                print(available, "are available to play on")
-                print(numAvailable, "is how many of each are available")
-        #if(turn < numPlayers): #make player only after implementing ai
+                available = []
+                numAvailable = []
+                for i in range (10):
+                    if spotsPlayable[i] > 0:
+                        available.append(i)
+                        numAvailable.append(spotsPlayable[i])
+                if len(available) == 1:
+                    print(available, "is available to play on")
+                    print(numAvailable, "is how many of it is available")
+                else:
+                    print(available, "are available to play on")
+                    print(numAvailable, "is how many of each are available")
         
         if ai_turn():
             # get valid dominoes
@@ -738,13 +756,12 @@ while round >= 0:
                     if ai[i][j] == 1 and is_valid_move([i, j]):
                         valid_dominoes.append((i*10)+j)
             
-            # TODO remove this, used for debugging
-            # print("playable dominoes ", valid_dominoes)
-            
-            userInput = minimax(0, 0, True, valid_dominoes, MIN, MAX)
-            userInput = str(userInput/10).split(".")
-            userInput = f"play {userInput[0]} {userInput[1]}"
-            print(userInput)
+            if len(valid_dominoes) == 0:
+                pass
+            else:
+                userInput = minimax(0, 0, True, valid_dominoes, MIN, MAX)
+                userInput = str(userInput/10).split(".")
+                userInput = f"play {userInput[0]} {userInput[1]}"
         else:
             userInput = input("Enter move: ")
         
@@ -776,7 +793,10 @@ while round >= 0:
             elif turn == numPlayers and ai[int(playedDomino[1])][int(playedDomino[2])] == 1:
                 play(userInput)
             else:
-                print("You do not have that domino")
+                if turn < numPlayers:
+                    print("You do not have that domino")
+                elif turn == numPlayers:
+                    draw()
         elif userInput == "doubles":
             available = []
             for i in range(10):
@@ -791,7 +811,6 @@ while round >= 0:
             print(totalPlayed, "have been played of each")
             print(chickenYardAmount, "dominoes left in chicken yard")
         elif userInput == "draw":
-            #draw(chickenYardAmount, turn, blockCheck, chickenYard, doublePlayed, double, player, playerHandSize, ai, aiHandSize, spotsPlayable)
             draw()
         elif userInput == "places":
             available = []
@@ -852,8 +871,9 @@ while round >= 0:
                     elif turn == numPlayers:
                         ai[i][j] = 0
                         aiHandSize = 0
-            
-        if blockCheck > numPlayers or player1HandSize == 0 or player2HandSize == 0 or player3HandSize == 0 or player4HandSize == 0 or player5HandSize == 0 or player6HandSize == 0 or player7HandSize == 0 or aiHandSize == 0: # round end tests
+
+        # blockCheck > numPlayers  
+        if  player1HandSize == 0 or player2HandSize == 0 or player3HandSize == 0 or player4HandSize == 0 or player5HandSize == 0 or player6HandSize == 0 or player7HandSize == 0 or aiHandSize == 0: # round end tests
             break
 
     for i in range(10): # calc score
